@@ -1,0 +1,7 @@
+name: Items
+version: '1.0.0'
+main: com.roseworld.Items
+api-version: '1.21'
+prefix: Items
+authors: [ TMG8047KG ]
+description: RoseKingdom's items and models

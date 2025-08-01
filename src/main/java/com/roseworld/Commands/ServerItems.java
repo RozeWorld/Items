@@ -30,7 +30,7 @@ public class ServerItems {
                                     List<Player> players = context.getArgument("Player", PlayerSelectorArgumentResolver.class).resolve(context.getSource());
                                     players.forEach(player -> {
                                         player.getInventory().addItem(item);
-                                        player.sendMessage(Component.text("Works?"));
+                                        player.sendMessage(Component.text("Give "+ item.getAmount() + " ").append(item.displayName().append(Component.text(" to").append(player.displayName()))));
                                     });
                                     return Command.SINGLE_SUCCESS;
                                 })))

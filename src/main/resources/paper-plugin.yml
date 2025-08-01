@@ -1,7 +1,13 @@
 name: Items
-version: '1.0.0'
+version: '${version}'
 main: com.roseworld.Items
 api-version: '1.21'
 prefix: Items
 authors: [ TMG8047KG ]
 description: RoseKingdom's items and models
+dependencies:
+  server:
+    RoseKingdom:
+      required: true
+      join-classpath: true
+      load: BEFORE

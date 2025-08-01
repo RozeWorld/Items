@@ -11,6 +11,7 @@ public class CommandManager {
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
             new ServerItems().register(commands);
+            new ToggleDamageInfo().register(commands);
         });
     }
 }

@@ -2,8 +2,6 @@ package com.roseworld.Utils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.HashMap;

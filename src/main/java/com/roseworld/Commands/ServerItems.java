@@ -1,7 +1,7 @@
 package com.roseworld.Commands;
 
 import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.ArgumentType;
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.roseworld.Commands.Arguments.CustomItemArgument;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
@@ -28,6 +28,18 @@ public class ServerItems {
                                 .executes(context -> {
                                     ItemStack item = context.getArgument("Item", ItemStack.class);
                                     List<Player> players = context.getArgument("Player", PlayerSelectorArgumentResolver.class).resolve(context.getSource());
+                                    players.forEach(player -> {
+                                        player.getInventory().addItem(item);
+                                        player.sendMessage(Component.text("Give "+ item.getAmount() + " ").append(item.displayName().append(Component.text(" to").append(player.displayName()))));
+                                    });
+                                    return Command.SINGLE_SUCCESS;
+                                }))
+                        .then(Commands.argument("Amount", IntegerArgumentType.integer())
+                                .executes(context -> {
+                                    ItemStack item = context.getArgument("Item", ItemStack.class);
+                                    List<Player> players = context.getArgument("Player", PlayerSelectorArgumentResolver.class).resolve(context.getSource());
+                                    int amount = IntegerArgumentType.getInteger(context, "Amount");
+                                    item.setAmount(amount);
                                     players.forEach(player -> {
                                         player.getInventory().addItem(item);
                                         player.sendMessage(Component.text("Give "+ item.getAmount() + " ").append(item.displayName().append(Component.text(" to").append(player.displayName()))));

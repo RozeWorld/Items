@@ -19,16 +19,16 @@ public class GiantDiamondSword extends BaseItem {
     @Override
     public ItemStack createItem() {
         ItemStack item = ItemStack.of(Material.DIAMOND_SWORD);
+
+        addCustomData(item);
         setName(item, Message.LightBlue("Giant Diamond Sword"));
         setModel(item, "giant_diamond_sword");
         addLore(item, Message.Gray("Made out of hardened diamonds"));
         attribute(item,
                 new AttributeModifier(new NamespacedKey(plugin, "giant_diamond_sword"), 8.0, AttributeModifier.Operation.ADD_NUMBER),
-                Message.Lime("9 Attack Damage")
-                );
+                Message.Lime(" 9 Attack Damage")
+        );
         item.unsetData(DataComponentTypes.TOOL);
-
-        addCustomData(item);
         return item;
     }
 

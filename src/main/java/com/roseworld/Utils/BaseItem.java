@@ -60,11 +60,11 @@ public abstract class BaseItem implements CustomItem {
     }
 
     protected void attribute(ItemStack item, AttributeModifier modifier, Component text){
-        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey(plugin, key.getKey()), 8.0, AttributeModifier.Operation.ADD_NUMBER), EquipmentSlot.HAND.getGroup(), AttributeModifierDisplay.override(text)));
+        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(Attribute.ATTACK_DAMAGE, modifier, EquipmentSlot.HAND.getGroup(), AttributeModifierDisplay.override(text)));
     }
 
     protected void attribute(ItemStack item, Attribute attribute, AttributeModifier modifier, EquipmentSlotGroup slot, Component text){
-        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(new NamespacedKey(plugin, key.getKey()), 8.0, AttributeModifier.Operation.ADD_NUMBER), slot, AttributeModifierDisplay.override(text)));
+        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(attribute, modifier, slot, AttributeModifierDisplay.override(text)));
     }
 
     public boolean isCustomItem(ItemStack item) {

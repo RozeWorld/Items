@@ -6,6 +6,7 @@ import io.papermc.paper.datacomponent.item.ItemAttributeModifiers;
 import io.papermc.paper.datacomponent.item.ItemLore;
 import io.papermc.paper.datacomponent.item.attribute.AttributeModifierDisplay;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.NamespacedKey;
 import org.bukkit.attribute.Attribute;
@@ -59,12 +60,26 @@ public abstract class BaseItem implements CustomItem {
         item.setData(DataComponentTypes.LORE, ItemLore.lore().addLine(text.decoration(TextDecoration.ITALIC, false)));
     }
 
-    protected void attribute(ItemStack item, AttributeModifier modifier, Component text){
-        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(Attribute.ATTACK_DAMAGE, modifier, EquipmentSlot.HAND.getGroup(), AttributeModifierDisplay.override(text)));
+    protected void toolAttribute(ItemStack item, Attribute attribute, AttributeModifier modifier, String text, boolean override){
+        if(item.hasData(DataComponentTypes.ATTRIBUTE_MODIFIERS)) {
+            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.itemAttributes();
+            if(!override) {
+                copyAttributes(builder, item);
+            }
+            builder.addModifier(attribute, modifier, EquipmentSlot.HAND.getGroup(), AttributeModifierDisplay.override(Component.text(" " + text, NamedTextColor.DARK_GREEN)));
+            item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, builder);
+        }
     }
 
-    protected void attribute(ItemStack item, Attribute attribute, AttributeModifier modifier, EquipmentSlotGroup slot, Component text){
-        item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, ItemAttributeModifiers.itemAttributes().addModifier(attribute, modifier, slot, AttributeModifierDisplay.override(text)));
+    protected void attribute(ItemStack item, Attribute attribute, AttributeModifier modifier, EquipmentSlotGroup slot, String text, boolean override){
+        if(item.hasData(DataComponentTypes.ATTRIBUTE_MODIFIERS)) {
+            ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.itemAttributes();
+            if(!override) {
+                copyAttributes(builder, item);
+            }
+            builder.addModifier(attribute, modifier, slot, AttributeModifierDisplay.override(Component.text(" " + text, NamedTextColor.DARK_GREEN)));
+            item.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS, builder);
+        }
     }
 
     public boolean isCustomItem(ItemStack item) {
@@ -77,5 +92,17 @@ public abstract class BaseItem implements CustomItem {
         );
 
         return key.getKey().equals(customItemId);
+    }
+
+    private void copyAttributes(ItemAttributeModifiers.Builder builder, ItemStack item) {
+        ItemAttributeModifiers mod = item.getData(DataComponentTypes.ATTRIBUTE_MODIFIERS);
+        for(ItemAttributeModifiers.Entry entry : mod.modifiers()){
+            builder.addModifier(
+                    entry.attribute(),
+                    entry.modifier(),
+                    entry.getGroup(),
+                    entry.display()
+            );
+        }
     }
 }
